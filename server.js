@@ -12,6 +12,12 @@ const { server,app } = require("./Socket/socket.js");
 dotenv.config()
 // const app=express();
 // app.use(cors());
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "YOUR_FRONTEND_URL"); // Replace with your frontend URL
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Credentials", true); // Allow cookies
+    next();
+});
 app.use(cors({
     origin: 'http://localhost:3000', // Your frontend URL
     credentials: true // Allow credentials (cookies)

@@ -23,7 +23,8 @@ const userRegister=async(req,res)=>{
             gender,
             profilepic:gender==="male"?profileBoy:profileGirl
         })
-
+await newUser.save();
+jwtToken(newUser._id,res)
        if(newUser){
          await newUser.save();
          jwtToken(newUser._id,res)
