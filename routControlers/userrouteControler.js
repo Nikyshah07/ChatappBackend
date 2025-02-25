@@ -58,7 +58,7 @@ const userLogin=async(req,res)=>{
         const {email,password}=req.body;
         const user=await User.findOne({email})
         if(!user){
-            return res.status(500).json({success:false,message:"User already exist"});
+            return res.status(500).json({success:false,message:"User does not exist"});
         }
        const comparepass=bcrypt.compareSync(password,user.password)
        if(!comparepass){
@@ -67,13 +67,15 @@ const userLogin=async(req,res)=>{
    
         
 
-       jwtToken(user._id,res)
+    //    jwtToken(user._id,res)
+    const token = jwtToken(user._id);
        res.status(201).json({
         _id:user._id,
         fullname:user.fullname,
         username:user.username,
         profilepic:user.profilepic,
         email:user.email,
+        token:token,
         message:"Login successfully..."
        })
 
@@ -86,20 +88,38 @@ const userLogin=async(req,res)=>{
     }
 }
 
-const userLogout=async(req,res)=>{
-    try{
-res.cookie("jwt",'',{
-    maxAge:0
-})
-res.status(200).json({message:"Logout successfully"})
+const userLogout = async (req, res) => {
+    try {
+      // No need to clear cookies since we're using localStorage on frontend
+      // The frontend should clear the localStorage token
+      
+      res.status(200).json({ 
+        success: true,
+        message: "Logout successfully" 
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message // Return just the error message
+      });
+      console.log(error);
     }
-    catch(error){
-        res.status(500).json({
-              success:false,
-              message:error
-          })
-          console.log(error);
-      }
-}
+  };
+
+// const userLogout=async(req,res)=>{
+//     try{
+// res.cookie("jwt",'',{
+//     maxAge:0
+// })
+// res.status(200).json({message:"Logout successfully"})
+//     }
+//     catch(error){
+//         res.status(500).json({
+//               success:false,
+//               message:error
+//           })
+//           console.log(error);
+//       }
+// }
 
 module.exports = { userRegister,userLogin ,userLogout};
