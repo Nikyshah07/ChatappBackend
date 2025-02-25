@@ -27,8 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser())
 const corsOptions = {
-    origin: '*', // Allow requests from this domain
-    credentials: true // Allow cookies
+    origin: '*'// Allow requests from this domain
+    // credentials: true // Allow cookies
 };
 
 app.use(cors(corsOptions));
