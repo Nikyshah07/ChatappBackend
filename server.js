@@ -11,7 +11,7 @@ const { server,app } = require("./Socket/socket.js");
 
 dotenv.config()
 // const app=express();
-app.use(cors());
+// app.use(cors());
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // Replace with your frontend URL
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
@@ -26,7 +26,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser())
+const corsOptions = {
+    origin: '*', // Allow requests from this domain
+    credentials: true // Allow cookies
+};
 
+app.use(cors(corsOptions));
 const response=mongoose.connect(process.env.URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true})
